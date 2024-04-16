@@ -16,6 +16,7 @@
           haskell-language-server
           hlint
           QuickCheck
+          ghcid
         ]))
       ];
     };
