@@ -19,6 +19,7 @@
         (haskellPackages.ghcWithPackages (pkgs: with pkgs; [ 
           QuickCheck
           ghcid
+          cabal-install
         ]))
       ];
     };
