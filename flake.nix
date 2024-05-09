@@ -11,10 +11,12 @@
   in {
     devShells.x86_64-linux.default = pkgs.mkShell {
       name = "d7018e-labs";
+      packages = with pkgs; [
+        haskellPackages.haskell-language-server
+        haskellPackages.hlint
+      ];
       buildInputs = with pkgs; [
         (haskellPackages.ghcWithPackages (pkgs: with pkgs; [ 
-          haskell-language-server
-          hlint
           QuickCheck
           ghcid
         ]))
