@@ -1,14 +1,12 @@
 module Lab1 where
 
-import Test.QuickCheck
-import Test.QuickCheck.Property (Result (testCase))
 
-sort :: [Int] -> [Int]
+sort :: [(Int, (Int, Int), [Int])] -> [(Int, (Int, Int), [Int])]
 sort [] = []
-sort (x : xs) = sort smaller ++ [x] ++ sort larger
+sort ((x, ij, sublist) : xs) = sort smaller ++ [(x, ij, sublist)] ++ sort larger
   where
-    smaller = [a | a <- xs, a <= x]
-    larger = [b | b <- xs, b > x]
+    smaller = [(a, ij, sublist) | (a, ij, sublist) <- xs, a <= x]
+    larger = [(b, ij, sublist) | (b, ij, sublist) <- xs, b > x]
 
 sum' :: [Int] -> Int
 sum' = foldl (+) 0
@@ -33,9 +31,6 @@ zipAll :: [Int] -> [(Int, Int)] -> [[Int]] -> [(Int, (Int, Int), [Int])]
 zipAll [] _ _ = []
 zipAll (x : xs) (y : ys) (z : zs) = (x, y, z) : zipAll xs ys zs
 
-filterSubLists :: [Int] -> [(Int, (Int, Int), [Int])] -> [(Int, (Int, Int), [Int])]
-filterSubLists [] _ = []
-filterSubLists (x : xs) ys = [(y, ijs, sublist) | (y, ijs, sublist) <- ys, y == x] ++ filterSubLists xs ys
 
 testList :: [Int]
 testList = [-1, 2, -3, 4, -5]
@@ -44,7 +39,7 @@ allSums :: [Int] -> [Int]
 allSums xs = [min' xs .. max' xs]
 
 result :: [Int] -> [(Int, (Int, Int), [Int])]
-result xs = filterSubLists (allSums xs) (zipAll sums (allIsAndJs xs) (allSubLists xs))
+result xs = sort (zipAll sums (allIsAndJs xs) (allSubLists xs))
   where
     sums = sumSubLists (allSubLists xs)
 
@@ -71,8 +66,17 @@ testList2 = [24, -11, -34, 42, -24, 7, -19, 21]
 k2 :: Int
 k2 = 6
 
+testList3 :: [Int]
+testList3  = [3,2,-4,3,2,-5,-2,2,3,-3,2,-5,6,-2,2,3]
+
+k3 :: Int
+k3 = 8
+
 testCase1 :: IO ()
 testCase1 = smallestKsest k1 testList1
 
 testCase2 :: IO ()
 testCase2 = smallestKsest k2 testList2
+
+testCase3 :: IO ()
+testCase3 = smallestKsest k3 testList3
