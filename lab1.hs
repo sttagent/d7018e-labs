@@ -11,11 +11,6 @@ sort ((x, ij, sublist) : xs) = sort smaller ++ [(x, ij, sublist)] ++ sort larger
 sum' :: [Int] -> Int
 sum' = foldl (+) 0
 
-max' :: [Int] -> Int
-max' = foldr max 0
-
-min' :: [Int] -> Int
-min' = foldr min 0
 
 allSubLists :: [Int] -> [[Int]]
 allSubLists [] = []
@@ -34,9 +29,6 @@ zipAll (x : xs) (y : ys) (z : zs) = (x, y, z) : zipAll xs ys zs
 
 testList :: [Int]
 testList = [-1, 2, -3, 4, -5]
-
-allSums :: [Int] -> [Int]
-allSums xs = [min' xs .. max' xs]
 
 result :: [Int] -> [(Int, (Int, Int), [Int])]
 result xs = sort (zipAll sums (allIsAndJs xs) (allSubLists xs))
